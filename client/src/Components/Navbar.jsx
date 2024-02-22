@@ -4,7 +4,7 @@ const Navbar = () => {
 
   return (
     <div
-      className="bg-gray-900 p-3 mt-1 font-mono text-white  text-xl text-center 
+      className="bg-gray-900 p-3  font-mono text-white  text-xl text-center 
      hover:bg-gray-700 
     "
     >
