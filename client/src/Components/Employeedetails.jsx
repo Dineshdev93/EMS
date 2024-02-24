@@ -57,7 +57,7 @@ const Employeedetails = () => {
             </div>:
              <div className="flex flex-wrap mt-2">
               <FaFemale className="text-2xl text-yellow-500" />&nbsp;:
-                Female
+                {empdata.gender}
             </div> }
             <div className="flex flex-wrap mt-2">
               <IoHome className="text-2xl text-green-600" /> &nbsp;: {empdata.home}

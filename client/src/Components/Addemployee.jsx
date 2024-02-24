@@ -62,6 +62,7 @@ const Addemployee = () => {
         }, 2000);
       }
       toast.success("Data has been added")
+      console.log(select);
     }
   };
   const handleChange = (e) => {

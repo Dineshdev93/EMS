@@ -4,6 +4,7 @@ import { useNavigate,Link } from "react-router-dom";
 import { FaUserEdit } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { emdtlsActions } from "../Store/empSlice";
+import {ToastContainer,toast} from "react-toastify"
 import axios from "axios";
 const Home = ({ empdata }) => {
   const dispatch = useDispatch()
@@ -20,7 +21,10 @@ const Home = ({ empdata }) => {
     } catch (error) {
         console.log(error);
     }
-
+      setTimeout(()=>{
+        navigation("/addemp")
+      },2000)
+      toast.info("Item deleted ...")
   }
   return (
     <>
@@ -35,6 +39,19 @@ const Home = ({ empdata }) => {
               <td className="w-20">{empdata.status === "Active" ? <span className="text-green-600 font-bold text-[17px]">{empdata.status}</span> : <span className="text-red-600 font-bold text-[17px]">{empdata.status}</span>}  </td>
               <td className="w-20">
                 <MdDelete className="text-4xl ml-6 text-center text-red-600 cursor-pointer" onClick={itemdeleted}/>
+                <ToastContainer
+              position="top-center"
+              autoClose={1900}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+              transition:Flip
+            />
               </td>
               <td className="w-20">
                 <Link to={`/editemp/${empdata._id}`}>

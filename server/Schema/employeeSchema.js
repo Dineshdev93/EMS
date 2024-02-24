@@ -18,12 +18,8 @@ const empSchema = new mongoose.Schema({
     required: true,
   },
   gender: {
-     male : {
-      type : String
-     },
-     female : {
-       type : String
-     }
+    type : String,
+    required : true
   },
   status: {
     type: String,

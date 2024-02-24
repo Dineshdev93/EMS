@@ -6,21 +6,48 @@ import Spiner from "../Components/Spiner";
 export default function Homeroute() {
   const [empdata, setEmpdata] = useState([]);
   const getEmpdata = "http://localhost:8000/getdata";
-
   const getdata = async () => {
     let result = await axios.get(getEmpdata);
     setEmpdata(result.data);
   };
   useEffect(() => {
-    getdata();
-  }, []);
+      const pagedatacount  = Math.ceil(empdata.length/2)
+      setPageCount(pagedatacount)
+      if(page){
+        const Limit = 2
+        const skip = Limit*page
+        const dataskip = empdata.slice(skip-Limit,skip)
+        setPageData(dataskip)
+      }
+  }, [empdata]);
+     
+  console.log(empdata);
 
+   /////////////////////////////////////////
+  //  Pagination functionlity
+  const[pagedata,setPageData] = useState([])
+  const [page,setPage] = useState(1)
+  const [pagecount,setPageCount] = useState(0)
+
+  // handle next button
+  const handleNext = () =>{
+    if(page === pagecount) return page
+    setPage(page+1)
+  }
+  // handle previous button
+  const handlePrev = () =>{
+     if(page === 1) return page
+     setPage(page-1)
+  }
+  useEffect(() => {
+    getdata();
+  }, [page]);
+
+  ////////////////////////////////////////////////////////////////////
   const navigate = useNavigate();
   const addnewEmployee = () => {
     navigate("/addemp");
   };
-
-  ////////////////////////////////////////////////////////////////////
   // for filtering data by gender...
   const [genderValue, setGenderValue] = useState("");
 
@@ -52,6 +79,8 @@ export default function Homeroute() {
   useEffect(() => {
     sortbystatus();
   }, [statusValue]);
+
+ 
   return (
     <>
       <h1 className="text-center text-3xl mt-4">
@@ -134,11 +163,18 @@ export default function Homeroute() {
           </tr>
         </thead>
       </table>
-      {empdata.length > 0 ? (
-        empdata.map((data, index) => <Home empdata={data} key={index} />)
+      {pagedata.length > 0 ? (
+        pagedata.map((data, index) => <Home empdata={data} key={index} />)
       ) : (
         <Spiner />
       )}
+       <div className='mt-2 inline-block mb-5 float-right'>
+         <span className='px-10 text-2xl cursor-pointer' aria-disabled={page === 1} onClick={handlePrev}>&laquo;</span>
+         {/* <span className='px-3 border border-separate p-1 bg-slate-400 rounded-md text-white hover:bg-slate-900'>1</span>
+         <span className='px-3 border-separate p-1 bg-slate-400 rounded-md text-white ml-2 hover:bg-slate-900'>2</span>
+         <span className='px-3 border-separate p-1 bg-slate-400 rounded-md text-white ml-2 hover:bg-slate-900'>3</span> */}
+         <span className='px-10 text-2xl cursor-pointer'onClick={handleNext}>&raquo;</span>
+         </div>
     </>
   );
 }
