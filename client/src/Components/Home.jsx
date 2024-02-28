@@ -36,7 +36,7 @@ const Home = ({ empdata }) => {
               <td className="">{empdata.name}</td>
               <td className="">{empdata.email}</td>
               <td>{empdata.contact}</td>
-              <td className="w-20">{empdata.status === "Active" ? <span className="text-green-600 font-bold text-[17px]">{empdata.status}</span> : <span className="text-red-600 font-bold text-[17px]">{empdata.status}</span>}  </td>
+              <td className="w-20">{empdata.status === "Active" ? <span className="text-green-400  text-[17px]">{empdata.status}</span> : <span className="text-red-400  text-[17px]">{empdata.status}</span>}  </td>
               <td className="w-20">
                 <MdDelete className="text-4xl ml-6 text-center text-red-600 cursor-pointer" onClick={itemdeleted}/>
                 <ToastContainer

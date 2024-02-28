@@ -4,45 +4,41 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Spiner from "../Components/Spiner";
 export default function Homeroute() {
+  /////////////////////////////////////////////////////////////////////
+  //  Api calling . . . .
   const [empdata, setEmpdata] = useState([]);
   const getEmpdata = "http://localhost:8000/getdata";
   const getdata = async () => {
     let result = await axios.get(getEmpdata);
     setEmpdata(result.data);
   };
+
+  //////////////////////////////////////////////////////////////////////
+  //  Pagination Functionlity . . . .
+  const [pagedata, setPagedata] = useState([]);
+  const [pagecount, setPagecount] = useState(0);
+  const [page, setPage] = useState(1);
   useEffect(() => {
-      const pagedatacount  = Math.ceil(empdata.length/2)
-      setPageCount(pagedatacount)
-      if(page){
-        const Limit = 2
-        const skip = Limit*page
-        const dataskip = empdata.slice(skip-Limit,skip)
-        setPageData(dataskip)
-      }
+      const totalpages = Math.ceil(empdata.length/7)
+      setPagecount(totalpages)
+      const limit = 7;
+      const skip = page*limit;
+      const dataSkip = empdata.slice(skip-limit,skip)
+      setPagedata(dataSkip) 
+
   }, [empdata]);
-     
-  console.log(empdata);
-
-   /////////////////////////////////////////
-  //  Pagination functionlity
-  const[pagedata,setPageData] = useState([])
-  const [page,setPage] = useState(1)
-  const [pagecount,setPageCount] = useState(0)
-
-  // handle next button
-  const handleNext = () =>{
-    if(page === pagecount) return page
-    setPage(page+1)
-  }
-  // handle previous button
-  const handlePrev = () =>{
-     if(page === 1) return page
-     setPage(page-1)
-  }
   useEffect(() => {
     getdata();
   }, [page]);
-
+  
+  const previousbtn=()=>{
+    if(page === 1) return page
+    setPage(page-1)
+  }
+  const nextbtn =() =>{
+   if(page === pagecount) return page
+   setPage(page+1)
+  }
   ////////////////////////////////////////////////////////////////////
   const navigate = useNavigate();
   const addnewEmployee = () => {
@@ -80,7 +76,6 @@ export default function Homeroute() {
     sortbystatus();
   }, [statusValue]);
 
- 
   return (
     <>
       <h1 className="text-center text-3xl mt-4">
@@ -168,13 +163,14 @@ export default function Homeroute() {
       ) : (
         <Spiner />
       )}
-       <div className='mt-2 inline-block mb-5 float-right'>
-         <span className='px-10 text-2xl cursor-pointer' aria-disabled={page === 1} onClick={handlePrev}>&laquo;</span>
-         {/* <span className='px-3 border border-separate p-1 bg-slate-400 rounded-md text-white hover:bg-slate-900'>1</span>
-         <span className='px-3 border-separate p-1 bg-slate-400 rounded-md text-white ml-2 hover:bg-slate-900'>2</span>
-         <span className='px-3 border-separate p-1 bg-slate-400 rounded-md text-white ml-2 hover:bg-slate-900'>3</span> */}
-         <span className='px-10 text-2xl cursor-pointer'onClick={handleNext}>&raquo;</span>
-         </div>
+      <div className="mt-2 inline-block mb-5 mr-5 float-right">
+        <span className=" text-4xl cursor-pointer text-gray-700 hover:text-lime-600" onClick={previousbtn}>
+          &laquo;
+        </span>
+        <span className="px-3 text-4xl cursor-pointer text-gray-700 hover:text-yellow-500" onClick={nextbtn}>
+          &raquo;
+        </span>
+      </div>
     </>
   );
 }
