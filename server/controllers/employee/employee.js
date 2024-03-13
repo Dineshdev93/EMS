@@ -1,22 +1,7 @@
-const express = require("express");
-const router = express();
-const empSchema = require("../Schema/employeeSchema");
-const multer = require("multer");
+const empSchema = require("../../Schema/employeeSchema");
 
-const imgconfig = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./upload");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `image-${file.originalname}`);
-  },
-});
-
-const upload = multer({
-  storage: imgconfig,
-});
-
-router.post("/postdata", upload.single("photo"), async (req, res) => {
+// add new employee
+exports.addnewEmployee = async(req,res)=>{
   const { filename } = req.file;
   const { name } = req.body;
   const { email } = req.body;
@@ -50,24 +35,21 @@ router.post("/postdata", upload.single("photo"), async (req, res) => {
   } catch (error) {
     res.status(401).json({ error });
   }
-});
+}
 
-router.get("/getdata", async (req, res) => {
-  let result = await empSchema.find();
-  res.send(result);
-});
-//  router.get('/searchdata/:gender',async(req,res)=>{
-//   let result =await empSchema.find({
-//       "$or" : [
-//          {"gender" : {$regex:req.params.gender}},
-//          {"gender" : {$regex:req.params.gender}},
+// get employee data
+exports.Getemployeedata = async(req,res)=>{
+  try {
+    let result = await empSchema.find();
+    res.status(200).json(result)
+  } catch (error) {
+     res.status(400).json({error : "Error"})
+  }
+}
 
-//       ]
-//   })
-//   res.send(result)
-// })
+// search by field
 
-router.get("/searchdata/:field", async (req, res) => {
+exports.Serachbyfield = async(req,res)=>{
   try {
     const users = await empSchema.find({ gender: req.params.field }).exec();
 
@@ -75,8 +57,10 @@ router.get("/searchdata/:field", async (req, res) => {
   } catch (err) {
     return res.status(500);
   }
-});
-router.get("/status/:field", async (req, res) => {
+}
+
+// serach by status
+exports.SerachbyStatus = async(req,res)=>{
   try {
     const users = await empSchema.find({ status: req.params.field }).exec();
 
@@ -84,27 +68,27 @@ router.get("/status/:field", async (req, res) => {
   } catch (err) {
     return res.status(500);
   }
-});
+}
 
-//// 
-// "Delete api"
-router.delete('/delete/:id',async(req,res)=>{
-   try {
+// delate employee
+exports.deleteemp = async(req,res)=>{
+  try {
     const result = await empSchema.deleteOne({_id : req.params.id})
    res.send(result)
    } catch (error) {
       res.sendStatus(`${error}`)
    }
-})
+}
+
 // only one employee data get api
-router.get('/getone/:empid',async(req,res)=>{
-    let result = await empSchema.findOne({_id : req.params.empid})
-    res.send(result)
-})
+exports.getOneempdata = async(req,res)=>{
+  let result = await empSchema.findOne({_id : req.params.empid})
+  res.send(result)
+}
 
 // edit api
-router.put('/editapi/:id',async(req,res)=>{
-   const data = await empSchema.updateOne({_id : req.params.id},{$set : req.body})
-   res.send(data)
-})
-module.exports = router;
+exports.editEmployee = async(req,res)=>{
+  const data = await empSchema.updateOne({_id : req.params.id},{$set : req.body})
+  res.send(data)
+}
+

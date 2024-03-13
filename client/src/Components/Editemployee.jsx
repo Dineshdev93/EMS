@@ -17,7 +17,7 @@ const Editemployee = () => {
   const [state, setState] = useState("");
   const [select, setSelect] = useState("");
   const params = useParams()
-  const getEmpdata = `http://localhost:8000/getone/${params.id}`;
+  const getEmpdata = `http://localhost:8000/employees/api/getone/${params.id}`;
   
   const getapi = async() =>{
    const result =   await axios.get(getEmpdata)
@@ -43,7 +43,7 @@ const Editemployee = () => {
    const navigate= useNavigate()
    const updaterFun = async(e) =>{
       e.preventDefault()
-      let result = await axios.put(`http://localhost:8000/editapi/${params.id}`,employeedata)
+      let result = await axios.put(`http://localhost:8000/employees/api/editapi/${params.id}`,employeedata)
       if(result){
          setTimeout(() => {
           navigate("/")

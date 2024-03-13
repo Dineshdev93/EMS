@@ -10,9 +10,13 @@ connectdb()
 
 
 
-const empRouter = require('./routes/addnewEmprouter')
-app.use(empRouter)
+const empRouter = require('./routes/employee/employeeRoutes')
+app.use('/employees/api', empRouter)
 app.use('/imgupload',express.static('./upload'))
+
+// adminregister
+const adminrouter = require('./routes/admin/adminauthroutes')
+app.use('/adminauth/api',adminrouter)
 
 const Port = 8000;
 

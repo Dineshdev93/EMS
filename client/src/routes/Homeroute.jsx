@@ -7,7 +7,8 @@ export default function Homeroute() {
   /////////////////////////////////////////////////////////////////////
   //  Api calling . . . .
   const [empdata, setEmpdata] = useState([]);
-  const getEmpdata = "http://localhost:8000/getdata";
+  console.log(empdata);
+  const getEmpdata = "http://localhost:8000/employees/api/getdata";
   const getdata = async () => {
     let result = await axios.get(getEmpdata);
     setEmpdata(result.data);
@@ -49,7 +50,7 @@ export default function Homeroute() {
 
   const genderData = async () => {
     const result = await axios.get(
-      `http://localhost:8000/searchdata/${genderValue}`
+      `http://localhost:8000/employees/api/searchdata/${genderValue}`
     );
     setEmpdata(result.data);
   };
@@ -68,7 +69,7 @@ export default function Homeroute() {
   const [statusValue, setStatusValue] = useState("");
   const sortbystatus = async () => {
     const result = await axios.get(
-      `http://localhost:8000/status/${statusValue}`
+      `http://localhost:8000/employees/api/status/${statusValue}`
     );
     setEmpdata(result.data);
   };

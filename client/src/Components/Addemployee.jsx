@@ -54,7 +54,7 @@ const Addemployee = () => {
           "content-type": "multipart/form-data",
         },
       };
-      const url = "http://localhost:8000/postdata";
+      const url = "http://localhost:8000/employees/api/addemployee";
       let result = await axios.post(url, formdata, config);
       if (result) {
         setTimeout(() => {

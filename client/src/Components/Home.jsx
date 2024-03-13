@@ -16,7 +16,7 @@ const Home = ({ empdata }) => {
   // delete item api calling
   const itemdeleted =async() =>{
     try {
-     const result = await axios.delete(`http://localhost:8000/delete/${empdata._id}`)
+     const result = await axios.delete(`http://localhost:8000/employees/api/delete/${empdata._id}`)
       console.log("item deleted"+result);
     } catch (error) {
         console.log(error);
